@@ -1,11 +1,8 @@
-const Range = require('cidr');
-
-range = new Range('192.168.1.0/24');
-console.log(range);
-
 const netmask = 22;
 // create bit string (we need 32 bits, add `netmask` 1-bits, fill up with zero bits )
-const bitString = Array(32).fill('1', 0, netmask).fill('0', netmask);
+const bitString = Array(32)
+  .fill('1', 0, netmask)
+  .fill('0', netmask);
 const bitSegments = [
   bitString.slice(0, 8),
   bitString.slice(8, 16),
@@ -29,9 +26,14 @@ networkSegments.forEach((networkSegment, index) => {
     hostMax.push(networkSegment);
   } else {
     const freeNumbers = index === 3 ? 254 : 255;
-    hostMin.push(index === 3 
-      ? Math.max(1, Math.min(networkSegment, freeNumbers - netmaskSegments[index]))
-      : Math.min(networkSegment, freeNumbers - netmaskSegments[index]));
+    hostMin.push(
+      index === 3
+        ? Math.max(
+            1,
+            Math.min(networkSegment, freeNumbers - netmaskSegments[index])
+          )
+        : Math.min(networkSegment, freeNumbers - netmaskSegments[index])
+    );
     hostMax.push(freeNumbers - netmaskSegments[index]);
   }
 });
@@ -43,4 +45,3 @@ console.log(hostMin.join('.'), hostMax.join('.'));
 }*/
 
 //console.log(possibleIps);
-
